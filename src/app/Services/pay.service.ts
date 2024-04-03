@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
  import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { IBillingDataModel, IMobileWalletPayRequestModel, IOrderItem, IOrderRegistrationModel, IPaymentKeyRequestModel, IPaymentKeyResponseDTO, IPaymob } from '../models/ipaymob';
+import { IBillingDataModel, IMobileWalletPayRequestModel, IOrderItem, IOrderRegistrationModel, IPaymentKeyRequestModel, IPaymentKeyResponseDTO, IPaymob, IResponsCallBack } from '../models/ipaymob';
  // import { OrderRegistrationModel } from '../models/paymobInterface';
  
 @Injectable({
@@ -12,8 +12,10 @@ import { IBillingDataModel, IMobileWalletPayRequestModel, IOrderItem, IOrderRegi
 })
 export class PayService {
  
-  // private baseUrl = 'https://localhost:7209'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
-  private baseUrl = 'http://dotnetplatform.runasp.net';
+  //  private baseUrl = 'https://localhost:7209'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
+   private baseUrl = 'http://ahmedgamalrasmi-001-site1.jtempurl.com'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
+
+  //private baseUrl = 'http://dotnetplatform.runasp.net';
   constructor(  private http: HttpClient) {} //, private cookieService:CookieService
 //we will use cookie service instead of localstorage
 AuthRequestPayMob(): Observable<any> { // هنا مستخدمين الدالة دي بس والثلاثة دوال التانيين مش مستخدمين
@@ -102,6 +104,67 @@ CardPayRequestApiPayMob(token:string): Observable<any> { // هنا مستخدم�
     }
     
   
+    Callbackrespons(callBackResponse:IResponsCallBack): Observable<any> { // هنا مستخدمين الدالة دي بس والثلاثة دوال التانيين مش مستخدمين
+   
+      console.log(callBackResponse.id)
+      // ملأ المتغير
+      const variables: IResponsCallBack = {
+        id: callBackResponse.id,
+        pending: callBackResponse.pending,
+        amount_cents: callBackResponse.amount_cents,
+        success: callBackResponse.success,
+        is_auth: callBackResponse.is_auth,
+        is_capture: callBackResponse.is_capture,
+        is_standalone_payment: callBackResponse.is_standalone_payment,
+        is_voided: callBackResponse.is_voided,
+        is_refunded: callBackResponse.is_refunded,
+        is_3d_secure: callBackResponse.is_3d_secure,
+        integration_id: callBackResponse.integration_id,
+        profile_id: callBackResponse.profile_id,
+        has_parent_transaction: callBackResponse.has_parent_transaction,
+        order: callBackResponse.order,
+        created_at: callBackResponse.created_at,
+        currency: callBackResponse.currency,
+        merchant_commission: callBackResponse.merchant_commission,
+        discount_details: callBackResponse.discount_details,
+        is_void: callBackResponse.is_void,
+        is_refund: callBackResponse.is_refund,
+        error_occured: callBackResponse.error_occured,
+        refunded_amount_cents: callBackResponse.refunded_amount_cents,
+        captured_amount: callBackResponse.captured_amount,
+        updated_at: callBackResponse.updated_at,
+        is_settled: callBackResponse.is_settled,
+        bill_balanced: callBackResponse.bill_balanced,
+        is_bill: callBackResponse.is_bill,
+        owner: callBackResponse.owner,
+        merchant_order_id: callBackResponse.merchant_order_id,
+        data_message: callBackResponse.data_message,
+        source_data_type: callBackResponse.source_data_type,
+        source_data_pa: callBackResponse.source_data_pa,
+        source_data_sub_type: callBackResponse.source_data_sub_type,
+        acq_response_code: callBackResponse.acq_response_code,
+        txn_response_code: callBackResponse.txn_response_code,
+        hmac: callBackResponse.hmac
+      };
+      
+      
+      
+        console.log(variables)
+       var returnedData: any;
+
+
+
+       var  response = this.http.post<any>(`${this.baseUrl}/api/Paymob/Callbackrespons`,variables);
+       returnedData = response as Object;
+
+      console.log("returnd callback")
+      console.log(returnedData)
+      // returnedData = JSON.parse(response);
+
+        return this.http.post<any>(`${this.baseUrl}/api/Paymob/Callbackrespons`,variables); //old
+  
+      }
+      
 
 
 

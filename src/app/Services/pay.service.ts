@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
  import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IBillingDataModel, IMobileWalletPayRequestModel, IOrderItem, IOrderRegistrationModel, IPaymentKeyRequestModel, IPaymentKeyResponseDTO, IPaymob, IResponsCallBack } from '../models/ipaymob';
  // import { OrderRegistrationModel } from '../models/paymobInterface';
  
@@ -12,16 +12,25 @@ import { IBillingDataModel, IMobileWalletPayRequestModel, IOrderItem, IOrderRegi
 })
 export class PayService {
  
-  //  private baseUrl = 'https://localhost:7209'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
+   //private baseUrl = 'https://localhost:7209'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
    private baseUrl = 'http://ahmedgamalrasmi-001-site1.jtempurl.com'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
 
   //private baseUrl = 'http://dotnetplatform.runasp.net';
   constructor(  private http: HttpClient) {} //, private cookieService:CookieService
 //we will use cookie service instead of localstorage
 AuthRequestPayMob(): Observable<any> { // هنا مستخدمين الدالة دي بس والثلاثة دوال التانيين مش مستخدمين
-     
+  var headers = new HttpHeaders().set('Username', `11162387`).append("Password","60-dayfreetrial"); //ولازما نضع كلمة Bearer دي 
+  // هنبعت مع كل ريكوست في الهيدر الخاص بيه نبعت التوكن .. كأننا باعتين التوكن في علامة القفل في ال swagger
+  // var headers = headers22.append("Address2","CairoAhmed").append("Register",Register.toString())
+  
+    // var data =  this.http.get<IUnit[]>(`${this.baseUrl3}/Get`);
+    // console.log(data) 
+    const options = {
+      headers: headers,
+      withCredentials: false // تفعيل إرسال معلمة الإعتماد
+    };
 
-    return this.http.post<any>(`${this.baseUrl}/api/Paymob/AuthRequestPayMob`,"en"); //old
+    return this.http.post<any>(`${this.baseUrl}/api/Paymob/AuthRequestPayMob`,"en",options); //old
   }
  
 
@@ -171,4 +180,18 @@ CardPayRequestApiPayMob(token:string): Observable<any> { // هنا مستخدم�
 
 
 
+      GetAllPaymobPayment(): Observable<any> { // هنا مستخدمين الدالة دي بس والثلاثة دوال التانيين مش مستخدمين
+        var headers = new HttpHeaders().set('Username', `11162387`).append("Password","60-dayfreetrial"); //ولازما نضع كلمة Bearer دي 
+        // هنبعت مع كل ريكوست في الهيدر الخاص بيه نبعت التوكن .. كأننا باعتين التوكن في علامة القفل في ال swagger
+        // var headers = headers22.append("Address2","CairoAhmed").append("Register",Register.toString())
+        
+          // var data =  this.http.get<IUnit[]>(`${this.baseUrl3}/Get`);
+          // console.log(data) 
+          const options = {
+            headers: headers,
+            withCredentials: false // تفعيل إرسال معلمة الإعتماد
+          };
+          return this.http.get<any>(`${this.baseUrl}/api/Paymob/GetAllPaymobPayment`,options); //old
+        }
+        
 }

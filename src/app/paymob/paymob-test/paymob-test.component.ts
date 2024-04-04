@@ -64,9 +64,9 @@ PaymentKeyRequestApiPayMob(token:string,orderId:string){
       console.log(data.token)
       console.log(data)
       
-       //this.cardPayment(data.token)//call method  دي افضل في التعامل  // visa 
+       this.cardPayment(data.token)//call method  دي افضل في التعامل  // visa 
       //this.CardPayRequestApiPayMob(data.token)
-       this.MobileWalletPayRequestPayMob(data.token)//wallet mobile
+      // this.MobileWalletPayRequestPayMob(data.token)//wallet mobile
     
     },
     error => {
@@ -80,7 +80,7 @@ CardPayRequestApiPayMob(token:string){ //  سيبك من الدالة دي لا�
       console.log("from CardPayRequestApiPayMob")
       console.log(data)
       let iframURL =data; //`https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${token}`
-      location.href = iframURL
+       location.href = iframURL
      },
     error => {
       console.log(error);
@@ -170,6 +170,19 @@ Callbackrespons(callbackResponse:any){ //IResponsCallBack //  سيبك من ال
 }//end
 
 
+GetAllPaymobPayment(){ //IResponsCallBack //  سيبك من الدالة دي لانها مش شغالة اصلا &&& cardPayment دي شغال احسن منها 
+  this.payService.GetAllPaymobPayment().subscribe(
+    (data: any) => {
+      console.log("from GetAllPaymobPayment")
+      console.log(data)
+      // console.log(data.redirect_url)
+      // let iframURL =  data.redirect_url;
+      // location.href = iframURL
+     },
+    error => {
+      console.log(error);
+    });
+}//end
 
 
 

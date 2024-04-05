@@ -13,7 +13,7 @@ import { IBillingDataModel, IMobileWalletPayRequestModel, IOrderItem, IOrderRegi
 export class PayService {
  
    //private baseUrl = 'https://localhost:7209'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
-   private baseUrl = 'http://ahmedgamalrasmi-001-site1.jtempurl.com'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
+   private baseUrl = 'https://apibooking.growthsacademy.com'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
 
   //private baseUrl = 'http://dotnetplatform.runasp.net';
   constructor(  private http: HttpClient) {} //, private cookieService:CookieService
@@ -45,7 +45,7 @@ AuthRequestPayMob(): Observable<any> { // هنا مستخدمين الدالة �
   // ملأ المتغير
   const variables: IOrderRegistrationModel = {
     auth_token: token,//"ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RrM01qQXNJbkJvWVhOb0lqb2lOREJtT1RVNU5ESmhORGswT0RSa05XRTJOVGczTldWa1kyRTFaR05rTjJabVkyWTBaREF6TW1aak1USmxPREExWXpnMk0ySTVaR0pqT1Rkak5UWm1NaUlzSW1WNGNDSTZNVGN4TVRnMk56azBPWDAuT19ISFF5SDc4aUJGLU9qRnJKeUlSQ2dieWQxQ0hPaVBaYmFTak9tMkJKaGNVbVNoX1FzT0NWSVUyTWJzejdCN1BpVzBqclFqUUJsdEMycHhjbXJiSlE=",
-    amount_cents: "11000", // قيمة السنتات ودا متغير ناخده من الكوكي
+    amount_cents: "100", // قيمة السنتات ودا متغير ناخده من الكوكي
     items: items,
     couresids: courseIds,
     packagids: packageIds
@@ -67,12 +67,12 @@ const billingData: IBillingDataModel= {
 // ملأ المتغير
 const variables: IPaymentKeyRequestModel = {
   auth_token: token,
-  amount_cents: "1", // قيمة السنتات
+  amount_cents: "100", // قيمة السنتات
   expiration: 3600, // قيمة الانتهاء بالثواني (اختياري)
   order_id: orderId,
   billing_data: billingData,
   currency: "EGP", // العملة (اختياري)
-  integration_id: 1698298,//1025030,//for wallet //1698298, // for cardمعرّف الاندماج (اختياري)
+  integration_id:1025030,//252103 ,// 1698298,//1025030,//for wallet //1698298, // for cardمعرّف الاندماج (اختياري)
   lock_order_when_paid: "false" // قفل الطلب عند الدفع (اختياري)
 };
 

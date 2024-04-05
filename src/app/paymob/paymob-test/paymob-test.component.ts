@@ -2,16 +2,18 @@ import { PayService } from './../../Services/pay.service';
  import { Component } from '@angular/core';
 import { firstStep } from './paymob_functions'; // استيراد الدوال من الملف الذي تحتوي عليه
 import { IResponsCallBack } from 'src/app/models/ipaymob';
- // import { PayService } from 'src/app/Services/pay.service';
+import { timeInterval } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+  // import { PayService } from 'src/app/Services/pay.service';
  
 @Component({
   selector: 'app-paymob-test',
   templateUrl: './paymob-test.component.html',
   styleUrls: ['./paymob-test.component.css']
 })
-export class PaymobTestComponent {
+export class PaymobTestComponent { 
 
-   constructor(private payService:PayService ) { }
+   constructor(private payService:PayService,private cookie : CookieService ) { }
 
   async doPaymentProcess() {
     try {
@@ -25,7 +27,7 @@ export class PaymobTestComponent {
   }
   GetFirstToken(){
   this.payService.AuthRequestPayMob().subscribe(
-
+    
     (data: any) => {
       console.log("from GetFirstToken")
        
@@ -62,9 +64,10 @@ PaymentKeyRequestApiPayMob(token:string,orderId:string){
       console.log("from OrderRegistrationAPIPayMob")
        
       console.log(data.token)
+      // this.cookie.set("finalToken",data.token);
       console.log(data)
       
-       this.cardPayment(data.token)//call method  دي افضل في التعامل  // visa 
+      // this.cardPayment(data.token)//call method  دي افضل في التعامل  // visa 
       //this.CardPayRequestApiPayMob(data.token)
       // this.MobileWalletPayRequestPayMob(data.token)//wallet mobile
     
@@ -88,19 +91,22 @@ CardPayRequestApiPayMob(token:string){ //  سيبك من الدالة دي لا�
 }//end
 
 
-  cardPayment(token: string) {
-  let iframURL = `https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${token}`
+  cardPayment() {//token: string
+    var finaltoken  =""// this.cookie.get("finalToken");
+  let iframURL = `https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${finaltoken}`
 
   location.href = iframURL
 }//end
 
 
-MobileWalletPayRequestPayMob(token:string){ //  سيبك من الدالة دي لانها مش شغالة اصلا &&& cardPayment دي شغال احسن منها 
+MobileWalletPayRequestPayMob(){ //token:string//  سيبك من الدالة دي لانها مش شغالة اصلا &&& cardPayment دي شغال احسن منها 
+  // var token  = this.cookie.get("finalToken");
+  var token = ""
   this.payService.MobileWalletPayRequestPayMob(token).subscribe(
     (data: any) => {
       console.log("from MobileWalletPayRequestPayMob")
       console.log(data)
-      // console.log(data.redirect_url)
+      // console.log(data.redirect_url) 
        
       // تحويل البيانات إلى كائن TypeScript
       const responseObject: any = {
@@ -139,14 +145,26 @@ MobileWalletPayRequestPayMob(token:string){ //  سيبك من الدالة دي 
         source_data_sub_type: data["source_data.sub_type"],
          acq_response_code: parseInt(data["acq_response_code"]), // تحويل القيمة إلى integer
          txn_response_code: parseInt(data["txn_response_code"]), // تحويل القيمة إلى integer
-         hmac: data.hmac
+         hmac: data.hmac,
+         redirection_url : data.redirection_url
+
+
       };
       // قم بتحويل البيانات إلى Object
            const dataObject: any = JSON.parse(JSON.stringify(responseObject));
             console.log("Response object: ", dataObject);
+            window.open(`${dataObject.redirection_url}`, "_blank");
 
-            let iframURL =  `${dataObject.redirect_url}`;
-            // location.href = iframURL
+            let iframURL =  `${dataObject.redirection_url}`;
+              console.log(`${dataObject.redirection_url}`)
+              console.log(iframURL)
+              location.href = `${iframURL}`
+              setTimeout(() => {
+                // Your code to execute after delay
+                console.log("settime")
+              }, 20000000); // 2000 milliseconds delay (2 seconds)
+              
+            
 
       //  this.Callbackrespons(data);
      },

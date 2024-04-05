@@ -1,10 +1,63 @@
-<p>paymob-test works!</p>
+<!-- <p>paymob-test works!</p>
 
 <div>
     <h2>Paymob Payment Process</h2>
-    <button (click)="doPaymentProcess()">Complete Payment</button>
-    <button (click)="GetFirstToken()">Get First Token</button>
+    <button (click)="doPaymentProcess()">Complete Payment</button><br>
+    <button (click)="GetFirstToken()">Pay</button> <br> // Get First Token 
     <button (click)="GetAllPaymobPayment()">GetAllPaymobPayment</button>
 
   </div>
-   
+    -->
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Paymob Payment Process</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        .container {
+          max-width: 600px;
+          margin: 50px auto;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+          color: #333;
+        }
+        button {
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          font-size: 16px;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-bottom: 10px;
+        }
+        button:hover {
+          background-color: #0056b3;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h2>Paymob Payment Process</h2>
+        <button (click)="GetFirstToken()">GenerateFinalToken</button> <br>
+        <!-- <button (click)="cardPayment()">PayWithCard</button> <br>
+        <button (click)="MobileWalletPayRequestPayMob()">PayWithMobileWallet</button> <br> <br> <br> -->
+
+        <button (click)="doPaymentProcess()">Complete Payment</button><br>
+        <button (click)="GetAllPaymobPayment()">GetAllPaymobPayment</button>
+      </div>
+    </body>
+    </html>
+    

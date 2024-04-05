@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "paymob_project:build:production"
+              "buildTarget": "paymob_project:build:production"
             },
             "development": {
-              "browserTarget": "paymob_project:build:development"
+              "buildTarget": "paymob_project:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "paymob_project:build"
+            "buildTarget": "paymob_project:build"
           }
         },
         "test": {

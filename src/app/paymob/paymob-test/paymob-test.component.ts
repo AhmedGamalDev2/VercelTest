@@ -3,9 +3,9 @@ import { PayService } from './../../Services/pay.service';
 import { firstStep } from './paymob_functions'; // استيراد الدوال من الملف الذي تحتوي عليه
 import { IResponsCallBack } from 'src/app/models/ipaymob';
 import { timeInterval } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
-  // import { PayService } from 'src/app/Services/pay.service';
- 
+   // import { PayService } from 'src/app/Services/pay.service';
+  import { CookieService } from 'ngx-cookie-service';
+
 @Component({
   selector: 'app-paymob-test',
   templateUrl: './paymob-test.component.html',
@@ -13,7 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PaymobTestComponent { 
 
-   constructor(private payService:PayService,private cookie : CookieService ) { }
+   constructor(private payService:PayService ) { }//,private cookie : CookieService
 
   async doPaymentProcess() {
     try {
@@ -67,7 +67,7 @@ PaymentKeyRequestApiPayMob(token:string,orderId:string){
       // this.cookie.set("finalToken",data.token);
       console.log(data)
       
-      // this.cardPayment(data.token)//call method  دي افضل في التعامل  // visa 
+       this.cardPayment(data.token)//call method  دي افضل في التعامل  // visa 
       //this.CardPayRequestApiPayMob(data.token)
       // this.MobileWalletPayRequestPayMob(data.token)//wallet mobile
     
@@ -77,31 +77,79 @@ PaymentKeyRequestApiPayMob(token:string,orderId:string){
     });
 }//end
 
-CardPayRequestApiPayMob(token:string){ //  سيبك من الدالة دي لانها مش شغالة اصلا &&& cardPayment دي شغال احسن منها 
-  this.payService.CardPayRequestApiPayMob(token).subscribe(
+ 
+
+  cardPayment(token: string) {//token: string
+    //var finaltoken  =""// this.cookie.get("finalToken");
+  let iframURL = `https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${token}`
+
+  location.href = iframURL
+}//end
+
+/************************************************************************************************************ */
+/************************************************************************************************************ */
+/************************************************************************************************************ */
+/************************************************************************************************************ */
+/************************************************************************************************************ */
+/************************************************************************************************************ */
+/************************************************************************************************************ */
+
+GetFirstToken2(){
+  this.payService.AuthRequestPayMob().subscribe(
+    
     (data: any) => {
-      console.log("from CardPayRequestApiPayMob")
+      console.log("from GetFirstToken")
+       
+      console.log(data.token)
+      this.OrderRegistrationAPIPayMob2(data.token);//call method
+    },
+    error => {
+      console.log(error);
+    }
+  );
+}//end
+
+
+OrderRegistrationAPIPayMob2(token:string){
+  this.payService.OrderRegistrationAPIPayMob(token).subscribe(
+
+    (data: any) => {
+      console.log("from OrderRegistrationAPIPayMob")
+       
       console.log(data)
-      let iframURL =data; //`https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${token}`
-       location.href = iframURL
-     },
+      var dataSring = `${data}`
+      this.PaymentKeyRequestApiPayMob2(token,dataSring)//data = orderId //call method
+    },
     error => {
       console.log(error);
     });
 }//end
 
 
-  cardPayment() {//token: string
-    var finaltoken  =""// this.cookie.get("finalToken");
-  let iframURL = `https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${finaltoken}`
+PaymentKeyRequestApiPayMob2(token:string,orderId:string){
+  this.payService.PaymentKeyRequestApiPayMob(token,orderId).subscribe(
 
-  location.href = iframURL
+    (data: any) => {
+      console.log("from OrderRegistrationAPIPayMob")
+       
+      console.log(data.token)
+      // this.cookie.set("finalToken",data.token);
+      console.log(data)
+      
+      // this.cardPayment(data.token)//call method  دي افضل في التعامل  // visa 
+      //this.CardPayRequestApiPayMob(data.token)
+      this.MobileWalletPayRequestPayMob2(data.token)//wallet mobile
+    
+    },
+    error => {
+      console.log(error);
+    });
 }//end
 
 
-MobileWalletPayRequestPayMob(){ //token:string//  سيبك من الدالة دي لانها مش شغالة اصلا &&& cardPayment دي شغال احسن منها 
+MobileWalletPayRequestPayMob2(token:string){ //token:string//  سيبك من الدالة دي لانها مش شغالة اصلا &&& cardPayment دي شغال احسن منها 
   // var token  = this.cookie.get("finalToken");
-  var token = ""
+  
   this.payService.MobileWalletPayRequestPayMob(token).subscribe(
     (data: any) => {
       console.log("from MobileWalletPayRequestPayMob")
@@ -153,7 +201,7 @@ MobileWalletPayRequestPayMob(){ //token:string//  سيبك من الدالة د�
       // قم بتحويل البيانات إلى Object
            const dataObject: any = JSON.parse(JSON.stringify(responseObject));
             console.log("Response object: ", dataObject);
-            window.open(`${dataObject.redirection_url}`, "_blank");
+            // window.open(`${dataObject.redirection_url}`, "_blank");
 
             let iframURL =  `${dataObject.redirection_url}`;
               console.log(`${dataObject.redirection_url}`)

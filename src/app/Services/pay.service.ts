@@ -9,7 +9,7 @@ import { IBillingDataModel, IMobileWalletPayRequestModel, IOrderItem, IOrderRegi
  
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class PayService {
  
    //private baseUrl = 'https://localhost:7209'; // قم بتعديل الرابط وفقًا لعنوان الواجهة الخلفية
@@ -19,18 +19,18 @@ export class PayService {
   constructor(  private http: HttpClient) {} //, private cookieService:CookieService
 //we will use cookie service instead of localstorage
 AuthRequestPayMob(): Observable<any> { // هنا مستخدمين الدالة دي بس والثلاثة دوال التانيين مش مستخدمين
-  var headers = new HttpHeaders().set('Username', `11162387`).append("Password","60-dayfreetrial"); //ولازما نضع كلمة Bearer دي 
+  // var headers = new HttpHeaders().set('Username', `11162387`).append("Password","60-dayfreetrial"); //ولازما نضع كلمة Bearer دي 
   // هنبعت مع كل ريكوست في الهيدر الخاص بيه نبعت التوكن .. كأننا باعتين التوكن في علامة القفل في ال swagger
   // var headers = headers22.append("Address2","CairoAhmed").append("Register",Register.toString())
   
     // var data =  this.http.get<IUnit[]>(`${this.baseUrl3}/Get`);
     // console.log(data) 
-    const options = {
-      headers: headers,
-      withCredentials: false // تفعيل إرسال معلمة الإعتماد
-    };
+    // const options = {
+    //   headers: headers,
+    //   withCredentials: false // تفعيل إرسال معلمة الإعتماد
+    // };
 
-    return this.http.post<any>(`${this.baseUrl}/api/Paymob/AuthRequestPayMob`,"en",options); //old
+    return this.http.post<any>(`${this.baseUrl}/api/Paymob/AuthRequestPayMob`,"en"); //old
   }
  
 
@@ -68,13 +68,14 @@ const billingData: IBillingDataModel= {
 const variables: IPaymentKeyRequestModel = {
   auth_token: token,
   amount_cents: "100", // قيمة السنتات
-  expiration: 3600, // قيمة الانتهاء بالثواني (اختياري)
+  expiration: 3400, // قيمة الانتهاء بالثواني (اختياري)
   order_id: orderId,
   billing_data: billingData,
   currency: "EGP", // العملة (اختياري)
-  integration_id:1025030,//252103 ,// 1698298,//1025030,//for wallet //1698298, // for cardمعرّف الاندماج (اختياري)
-  lock_order_when_paid: "false" // قفل الطلب عند الدفع (اختياري)
+  integration_id:4553309,//4553295,//me card//4553309 ,//me wallet...... //4553295,//252103 ,// 1698298,//1025030,//for wallet //1698298, // for cardمعرّف الاندماج (اختياري)
+  lock_order_when_paid: "true" // قفل الطلب عند الدفع (اختياري)
 };
+
 
   return this.http.post<any>(`${this.baseUrl}/api/Paymob/PaymentKeyRequestApiPayMob`,variables); //old
 }
@@ -85,7 +86,7 @@ CardPayRequestApiPayMob(token:string): Observable<any> { // هنا مستخدم�
   // ملأ المتغير
   const variables: IPaymentKeyResponseDTO = {
     token: token,
-    iframeId: 232735,
+    iframeId: 837098,//me //232735,//M.B
     detail: "your_detail_value_here"
   };
   

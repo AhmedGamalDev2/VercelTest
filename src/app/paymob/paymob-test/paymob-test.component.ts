@@ -81,8 +81,10 @@ PaymentKeyRequestApiPayMob(token:string,orderId:string){
 
   cardPayment(token: string) {//token: string
     //var finaltoken  =""// this.cookie.get("finalToken");
-  let iframURL = `https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${token}`
-
+  //let iframURL = `https://accept.paymob.com/api/acceptance/iframes/232735?payment_token=${token}`//M.Basem
+  //let iframURL = `https://accept.paymob.com/api/acceptance/iframes/837099?payment_token=${token}`//Me
+  let iframURL = `https://accept.paymob.com/api/acceptance/iframes/837098?payment_token=${token}`//Me
+ 
   location.href = iframURL
 }//end
 
@@ -194,7 +196,8 @@ MobileWalletPayRequestPayMob2(token:string){ //token:string//  سيبك من ا�
          acq_response_code: parseInt(data["acq_response_code"]), // تحويل القيمة إلى integer
          txn_response_code: parseInt(data["txn_response_code"]), // تحويل القيمة إلى integer
          hmac: data.hmac,
-         redirection_url : data.redirection_url
+         iframe_redirection_url : data.iframe_redirection_url
+         
 
 
       };
@@ -203,14 +206,16 @@ MobileWalletPayRequestPayMob2(token:string){ //token:string//  سيبك من ا�
             console.log("Response object: ", dataObject);
             // window.open(`${dataObject.redirection_url}`, "_blank");
 
-            let iframURL =  `${dataObject.redirection_url}`;
-              console.log(`${dataObject.redirection_url}`)
+            let iframURL =  `${dataObject.iframe_redirection_url}`;
+              console.log(`${dataObject.iframe_redirection_url}`)
               console.log(iframURL)
-              location.href = `${iframURL}`
-              setTimeout(() => {
-                // Your code to execute after delay
-                console.log("settime")
-              }, 20000000); // 2000 milliseconds delay (2 seconds)
+              window.open(`${iframURL}`, "_blank");
+             
+              //location.href = `${iframURL}`
+              // setTimeout(() => {
+              //   // Your code to execute after delay
+              //   console.log("settime")
+              // }, 20000000); // 2000 milliseconds delay (2 seconds)
               
             
 
